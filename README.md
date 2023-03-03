@@ -1,4 +1,7 @@
 ### **_[DEPLOYED EXAMPLE(PYTHONANYWHERE)](http://fhockk13.pythonanywhere.com/)_**
+USERNAME = testuser
+
+PASSWORD = testpass123
 
 
 ## About

@@ -1,27 +1,15 @@
+import os
 from faker import Faker
 import random
 import csv
 
 fake = Faker()
 
-row_headers = {
-    ' full_name': 'Full name',
-    ' company': 'Company',
-    ' job': 'Job',
-    ' email': 'Email',
-    ' date': 'Date',
-    ' domain_name': 'Domain name',
-    ' phone_number': 'Phone number',
-    ' address': 'Address',
-    ' integer': 'Integer',
-    ' text': 'Text'
-}
-
 
 def write_csv(data, rows_number, filename, delimiter, quotechar):
     headers = []
     for el in data:
-        headers.append(row_headers[el[1]])
+        headers.append(el[1])
     rows = []
     get_columns = [el[2] for el in data]
     for i in range(int(rows_number)):
@@ -49,6 +37,9 @@ def write_csv(data, rows_number, filename, delimiter, quotechar):
                 types_to_fake_data[' text'] = ' '.join([fake.sentence() for _ in range(num_sentences)])
         row = [types_to_fake_data[column] for column in get_columns]
         rows.append(row)
+
+    if not os.path.exists('media/csv'):
+        os.makedirs('media/csv')
 
     with open(f'media/csv/{filename}.csv', mode='w') as file:
         writer = csv.writer(file, delimiter=delimiter, quotechar=quotechar)

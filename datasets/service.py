@@ -21,7 +21,7 @@ row_headers = {
 def write_csv(data, rows_number, filename, delimiter, quotechar):
     headers = []
     for el in data:
-        headers.append(row_headers[el[2]])
+        headers.append(row_headers[el[1]])
     rows = []
     get_columns = [el[2] for el in data]
     for i in range(int(rows_number)):

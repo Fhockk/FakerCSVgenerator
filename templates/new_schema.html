@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block header %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function initDelete() {
+                const deleteBtns = $('.delete-bton')
+                deleteBtns.off()
+                deleteBtns.on('click', (event) => {
+                    delete_column(event)
+                })
+            }
+            function delete_column(event) {
+                event.preventDefault()
+                const blockToDel = $(event.target).parents('.delete-clm')
+                blockToDel.remove()
+            }
+            function add_column() {
+                $('#container').append(`
+
+                <div class="row pt-4 delete-clm">
+                    <div class="col-3 ps-5">
+                        <label for="{{ column_schema_form.column_name.id_for_label }}" class="form-label">Name</label>
+                        {{ column_schema_form.column_name }}
+                    </div>
+                    <div class="col-2 ps-5">
+                        <label for="{{ column_schema_form.column_type.id_for_label }}" class="form-label">Type</label>
+                        {{ column_schema_form.column_type }}
+                    </div>
+                    <div class="col-1 ps-5">
+                        <label for="{{ column_schema_form.from_value.id_for_label }}" class="form-label">From</label>
+                        {{ column_schema_form.from_value }}
+                    </div>
+                    <div class="col-1 ps-5">
+                        <label for="{{ column_schema_form.to_value.id_for_label }}" class="form-label">To</label>
+                        {{ column_schema_form.to_value }}
+                    </div>
+                    <div class="col-2 ps-5" id="columns">
+                        <label for="{{ column_schema_form.order.id_for_label }}" class="form-label">Order</label>
+                        {{ column_schema_form.order }}
+                    </div>
+                    <div class="col-1 ps-5">
+                        <br>
+                        <a class="text-decoration-none link-danger delete-bton" href="#">Delete</a>
+                    </div>
+                </div>`)
+                initDelete()
+            }
+            $('#add_new_column').on('click', () => {
+                add_column()
+            })
+            add_column()
+        });
+    </script>
+
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row pt-4">
+                <div class="col-7 ps-5">
+                    <h2 class="display-7 mb-3 fw-normal">New schema</h2>
+                </div>
+                <div class="col-5">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </div>
+            <div class="row ps-5">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="{{ create_schema_form.name.id_for_label }}" class="form-label">Name</label>
+                        {{ create_schema_form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ create_schema_form.delimiter.id_for_label }}">Column separator</label>
+                        {{ create_schema_form.delimiter }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ create_schema_form.quotechar.id_for_label }}">String character</label>
+                        {{ create_schema_form.quotechar }}
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-4">
+                <div class="col-7 ps-5">
+                    <h2 class="display-7 mb-3 fw-normal">Schema columns</h2>
+                </div>
+            </div>
+            <div id="container" class="row pt-4">
+            </div>
+        </form>
+        <div class="row pt-4">
+            <div class="col-7 ps-5">
+                <button id="add_new_column" class="btn btn-primary" type="submit">Add column</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

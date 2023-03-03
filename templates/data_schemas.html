@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row pt-4">
+            <div class="col-7 ps-5">
+                <h2 class="display-7 mb-5 fw-normal">Data schemas</h2>
+            </div>
+            <div class="col-5">
+                <form action="{% url 'datasets:new_schema' %}">
+                    <button class="btn btn-success"  type="submit">New schema</button>
+                </form>
+            </div>
+        </div>
+        <div class="row pt4">
+            <div class="col-8 ps-5">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Modified</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for schema in schemas %}
+                        <tr>
+                            <th scope="row">{{ schema.id }}</th>
+                            <td>
+                                <a class="text-decoration-none" href="{{ schema.src.url }}">{{ schema.title }}</a>
+                            </td>
+                            <td>{{ schema.updated_at|date:"Y-m-d" }}</td>
+                            <td>
+                                <a class="text-decoration-none" href="#">Edit scheme</a>
+                                <a class="text-decoration-none link-danger" href="{% url 'datasets:delete' schema.id %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
